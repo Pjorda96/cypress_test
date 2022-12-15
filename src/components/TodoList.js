@@ -1,7 +1,7 @@
 import React from 'react'
 
 const TodoItem = props =>
-  <li className={props.isComplete && 'complete'}>
+  <li className={props.isComplete && 'completed'}>
     <div className="view">
       <input
         className="toggle"

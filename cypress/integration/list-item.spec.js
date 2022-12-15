@@ -60,7 +60,7 @@ describe('List items', () => {
       .should('be.checked');
 
     cy.get('@first-todo')
-      .should('have.class', 'complete');
+      .should('have.class', 'completed');
 
     cy.get('.todo-count')
       .should('contain', 2);
