@@ -3,7 +3,7 @@ describe('Smoke tests', () => {
     cy.request('GET', '/api/todos')
       .its('body')
       .each(todo => cy.request('DELETE', `/api/todos/${todo.id}`))
-  })
+  });
 
   context('With no todos', () => {
     it('Saves new todos', () => {
@@ -14,7 +14,7 @@ describe('Smoke tests', () => {
       ];
 
       cy.visit('/');
-      cy.server()
+      cy.server();
       cy.route('POST', '/api/todos')
         .as('create');
 
@@ -32,12 +32,11 @@ describe('Smoke tests', () => {
     });
   })
 
-  context('With no todos', () => {
+  context('With active todos', () => {
     beforeEach(() => {
       cy.fixture('todos')
         .each(todo => {
-          const newTodo = Cypress._.merge(todo, { isComplete: false });
-
+          const newTodo = Cypress._.merge(todo, { isComplete: false })
           cy.request('POST', '/api/todos', newTodo);
         })
 
@@ -47,9 +46,9 @@ describe('Smoke tests', () => {
     it('Loads existing data from the DB', () => {
       cy.get('.todo-list li')
         .should('have.length', 4);
-    });
+    })
 
-    it('Delete todos', () => {
+    it('Deletes todos', () => {
       cy.server();
       cy.route('DELETE', '/api/todos/*')
         .as('delete');
@@ -61,19 +60,19 @@ describe('Smoke tests', () => {
             .invoke('show')
             .click();
 
-          cy.wait('@delete')
+          cy.wait('@delete');
         })
-        .should('not-exist');
+        .should('not.exist');
     });
 
-    it('Toggle todos', () => {
+    it('Toggles todos', () => {
       const clickAndWait = el => {
         cy.wrap(el)
           .as('item')
           .find('.toggle')
           .click();
 
-        cy.wait('@update')
+        cy.wait('@update');
       }
 
       cy.server();
@@ -93,5 +92,5 @@ describe('Smoke tests', () => {
             .should('not.have.class', 'completed');
         })
     });
-  })
+  });
 });
